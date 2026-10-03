@@ -1,6 +1,8 @@
 dist/
 output/
 node_modules/
+# Local development guides, design notes, and verification records.
+/docs/
 .DS_Store
 Thumbs.db
 *.log
