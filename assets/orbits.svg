@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="560" viewBox="0 0 900 560" fill="none">
+  <title>Things in orbit</title>
+  <desc>A parchment crescent and a small terracotta planet suspended in a dark green field.</desc>
+  <defs>
+    <clipPath id="edge"><path d="M0 0h900v560H0z"/></clipPath>
+    <mask id="crescent"><path fill="white" d="M0 0h900v560H0z"/><circle cx="686" cy="203" r="201" fill="black"/></mask>
+    <filter id="paper" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".76" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".15"/></feComponentTransfer></filter>
+  </defs>
+  <g clip-path="url(#edge)">
+    <path fill="#253530" d="M0 0h900v560H0z"/>
+    <ellipse cx="445" cy="282" rx="399" ry="159" transform="rotate(-23 445 282)" stroke="#cabca5" stroke-opacity=".3" stroke-width="1"/>
+    <ellipse cx="445" cy="282" rx="474" ry="199" transform="rotate(-23 445 282)" stroke="#cabca5" stroke-opacity=".16" stroke-width="1"/>
+    <circle cx="519" cy="281" r="198" fill="#e8e1cf" mask="url(#crescent)"/>
+    <path d="M70 442c128 2 291-32 453-97 160-64 277-139 327-205" stroke="#cabca5" stroke-opacity=".35" stroke-width="1"/>
+    <circle cx="221" cy="425" r="9" fill="#b86043"/>
+    <circle cx="167" cy="123" r="1.2" fill="#e8e1cf" opacity=".66"/>
+    <circle cx="754" cy="407" r="1" fill="#e8e1cf" opacity=".52"/>
+    <path fill="#8d826f" opacity=".24" filter="url(#paper)" d="M0 0h900v560H0z" style="mix-blend-mode:soft-light"/>
+  </g>
+</svg>

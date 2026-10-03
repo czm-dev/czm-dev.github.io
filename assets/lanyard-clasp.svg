@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="96" viewBox="0 0 80 96" fill="none">
+  <defs>
+    <linearGradient id="plate" x1="9" y1="10" x2="71" y2="45" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f0f1f1"/><stop offset=".24" stop-color="#d4d7d8"/><stop offset=".52" stop-color="#b9bec1"/><stop offset=".76" stop-color="#d1d4d5"/><stop offset="1" stop-color="#a4aaae"/>
+    </linearGradient>
+    <linearGradient id="edge" x1="6" y1="0" x2="74" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#657079"/><stop offset=".08" stop-color="#e7ebed"/><stop offset=".15" stop-color="#7b858d"/><stop offset=".82" stop-color="#bac2c7"/><stop offset=".94" stop-color="#f7f9fa"/><stop offset="1" stop-color="#646f78"/>
+    </linearGradient>
+    <linearGradient id="tab" x1="17" y1="44" x2="61" y2="86" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#969fa5"/><stop offset=".12" stop-color="#d7dcdf"/><stop offset=".36" stop-color="#eef0f1"/><stop offset=".82" stop-color="#c6cccf"/><stop offset="1" stop-color="#9fa9b0"/>
+    </linearGradient>
+    <linearGradient id="lip" x1="0" y1="43" x2="0" y2="50" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#e8edef"/><stop offset=".25" stop-color="#abb5bc"/><stop offset=".65" stop-color="#4f5a64"/><stop offset="1" stop-color="#242e37"/>
+    </linearGradient>
+    <pattern id="grain" width="4" height="3" patternUnits="userSpaceOnUse">
+      <path d="M0 .5H4" stroke="#fff" stroke-opacity=".14" stroke-width=".35"/>
+      <path d="M0 2H4" stroke="#4d585f" stroke-opacity=".08" stroke-width=".3"/>
+    </pattern>
+    <clipPath id="face"><path d="M11 9H69L67 44H9Z"/></clipPath>
+  </defs>
+  <!-- The fold extends just inside the slot so its lower edge reveals thickness. -->
+  <g transform="translate(0 4)">
+  <path d="M17 41H63L61 80C60.7 85.5 58 89 53 89H27C22 89 19 86.5 19 81Z" fill="#59656e"/>
+  <path d="M18 41H62L59 79C58.6 83.7 56.5 86 52.5 86H27.5C23.3 86 21 84.1 21 79.5Z" fill="url(#tab)" stroke="#adb6bc" stroke-width=".8"/>
+  <path d="M20 47L22.5 78.5C22.5 82.5 24 84 27.7 84H52.5" stroke="#f6f8f9" stroke-width="1.1" stroke-linecap="round"/>
+  <path d="M27 88H53" stroke="#28343e" stroke-width="1.2" stroke-linecap="round"/>
+  </g>
+  <!-- Folded side walls and the narrow rolled lower lip of the strap clamp. -->
+  <path d="M8 9H70L74 13L71 48L67 51H10L6 46Z" fill="url(#edge)" stroke="#818c94" stroke-width=".7" stroke-linejoin="round"/>
+  <path d="M10 43H69L67 49H10L8 47Z" fill="url(#lip)"/>
+  <path d="M11 9H69L67 44H9Z" fill="url(#plate)" stroke="#c3cace" stroke-width=".7" stroke-linejoin="round"/>
+  <path d="M11 9H69L67 44H9Z" fill="url(#grain)"/>
+  <g clip-path="url(#face)" opacity=".15" stroke="#fff" stroke-width=".45">
+    <path d="M14 18H44M26 25H65M10 31H48M34 39H65"/>
+  </g>
+  <path d="M11 9H69M11 10L9 43" stroke="#f9fafb" stroke-opacity=".9" stroke-width="1"/>
+  <path d="M70 13L68 43" stroke="#6c7881" stroke-opacity=".7" stroke-width="1"/>
+  <path d="M10 45H67" stroke="#f0f4f6" stroke-width=".9"/>
+  <path d="M9 47L10 50M68 47L67 50" stroke="#26323c" stroke-width="1.5" stroke-linecap="round"/>
+</svg>

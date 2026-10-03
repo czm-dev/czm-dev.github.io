@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="760" viewBox="0 0 640 760" fill="none">
+  <title>Quiet horizon</title>
+  <desc>An ivory moon above a still desert of charcoal, terracotta, and sand.</desc>
+  <defs>
+    <clipPath id="print-edge"><path d="M0 0h640v760H0z"/></clipPath>
+    <filter id="paper" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency=".74" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer><feFuncA type="linear" slope=".13"/></feComponentTransfer>
+      <feBlend in="SourceGraphic" mode="soft-light"/>
+    </filter>
+    <linearGradient id="sky" x1="320" y1="0" x2="320" y2="567" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#202c2b"/><stop offset=".76" stop-color="#283531"/><stop offset="1" stop-color="#5c5040"/>
+    </linearGradient>
+    <linearGradient id="dusk" x1="0" y1="456" x2="0" y2="600" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#b86043"/><stop offset="1" stop-color="#715044"/>
+    </linearGradient>
+  </defs>
+  <g clip-path="url(#print-edge)">
+    <path fill="url(#sky)" d="M0 0h640v760H0z"/>
+    <path d="M-42 399C54 247 254 110 452 128c119 11 210 76 252 178" stroke="#cabca5" stroke-opacity=".21" stroke-width=".8"/>
+    <path d="M40 517C-7 289 134 57 386 17" stroke="#cabca5" stroke-opacity=".13" stroke-width=".8"/>
+    <circle cx="424" cy="269" r="140" fill="#ede9db"/>
+    <circle cx="138" cy="260" r="7" fill="#b86043"/>
+    <g fill="#ede9db">
+      <circle cx="77" cy="111" r="1.15" opacity=".68"/>
+      <circle cx="208" cy="173" r="1.2" opacity=".58"/>
+      <circle cx="304" cy="72" r=".9" opacity=".73"/>
+      <circle cx="560" cy="87" r="1.05" opacity=".53"/>
+      <circle cx="593" cy="415" r=".8" opacity=".55"/>
+      <circle cx="62" cy="371" r=".8" opacity=".44"/>
+    </g>
+    <path d="M0 482c93-11 126-38 211-24 77 13 160 51 257 20 69-22 123-26 172-19v301H0Z" fill="url(#dusk)"/>
+    <path d="M0 460c107 22 144 81 261 85 109 4 172-44 244-40 57 3 95 23 135 42v213H0Z" fill="#293330"/>
+    <path d="M0 575c111 1 165-31 256-10 137 31 165 93 384 50v145H0Z" fill="#8e5f4e"/>
+    <path d="M0 656c107-98 189-112 277-68 74 38 135 78 363 28v144H0Z" fill="#cabca5"/>
+    <path d="M0 695c146 27 214-41 342-42 121 0 178 57 298 37v70H0Z" fill="#e4ddcd"/>
+    <path d="M1 657c107-97 188-112 276-68" stroke="#f3f0e7" stroke-opacity=".3" stroke-width="1"/>
+    <path d="M342 653c121 0 178 57 298 37" stroke="#f3f0e7" stroke-opacity=".45" stroke-width="1"/>
+    <path fill="#8d826f" opacity=".29" filter="url(#paper)" d="M0 0h640v760H0z" style="mix-blend-mode:soft-light"/>
+  </g>
+</svg>

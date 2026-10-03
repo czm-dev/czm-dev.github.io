@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f2f4f7" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#101216" media="(prefers-color-scheme: dark)">
+    <meta name="description" content="Personal profile, publications, articles, and contact links.">
+    <title>[Your name] — Personal website</title>
+    <script>
+      try {
+        const theme = localStorage.getItem('personal-site-theme');
+        if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme;
+      } catch { /* CSS follows the device when storage is unavailable. */ }
+    </script>
+    <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+    <link rel="stylesheet" href="./styles.css">
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="page-shell">
+      <header class="site-header">
+        <label class="theme-control"><span class="theme-label">Theme</span><select id="theme-select" aria-label="Color theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label>
+        <nav class="main-nav" aria-label="Main navigation">
+          <a href="#profile">Profile</a>
+          <a href="#publications">Publications</a>
+          <a href="#articles">Articles</a>
+          <a href="#links">Links</a>
+        </nav>
+      </header>
+      <main id="main">
+        <section class="profile-section" id="profile" aria-labelledby="profile-name">
+          <div class="card-stage" id="card-stage">
+            <div class="badge-assembly" id="profile-badge">
+              <div class="lanyard" aria-hidden="true"></div>
+              <div class="sleeve-surface" aria-hidden="true"></div>
+              <div class="sleeve-slot" aria-hidden="true"></div>
+              <img class="lanyard-hardware" src="./assets/lanyard-clasp.svg" alt="" aria-hidden="true" width="80" height="96">
+            <article class="profile-card" id="profile-card" aria-label="Personal profile card">
+              <div class="card-heading"><span>Personal profile</span><span class="card-heading-rule" aria-hidden="true"></span><span class="card-detail">Photo &amp; details pending</span></div>
+              <div class="card-main">
+                <!-- PERSONALIZE: replace this placeholder with a portrait image and useful alt text. -->
+                <div class="portrait-placeholder" role="img" aria-label="Portrait photo placeholder">
+                  <svg viewBox="0 0 160 192" fill="none" aria-hidden="true"><circle cx="80" cy="70" r="25"/><path d="M32 159c0-32 20-52 48-52s48 20 48 52"/><path class="portrait-guide" d="M17 29V17h12M131 17h12v12M17 163v12h12M131 175h12v-12"/></svg>
+                  <span>[Your photo]</span>
+                </div>
+                <div class="profile-info">
+                  <!-- PERSONALIZE: name, role, affiliation, research areas, and biography. -->
+                  <h1 id="profile-name">[Your name]</h1>
+                  <p class="profile-role">[Your role / title]</p>
+                  <dl class="profile-fields">
+                    <div><dt>Affiliation</dt><dd>[Institution / organization]</dd></div>
+                    <div><dt>Research</dt><dd>[Your research areas]</dd></div>
+                  </dl>
+                  <p class="profile-bio">[A short biography: your background, current work, and interests.]</p>
+                </div>
+              </div>
+              <div class="card-footer"><span>Profile information to be added</span><span class="card-footer-mark" aria-hidden="true"></span></div>
+            </article>
+              <div class="sleeve-front" aria-hidden="true"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="content-section" id="publications" aria-labelledby="publications-title">
+          <div class="section-heading"><h2 id="publications-title">Publications</h2><span class="section-label">Research papers</span></div>
+          <div class="publication-list">
+            <!-- PERSONALIZE: replace each placeholder with a real publication and its verified links. -->
+            <article class="publication-entry">
+              <div class="entry-year">[Year]</div>
+              <div class="entry-content"><span class="placeholder-label">Publication placeholder</span><h3>[Title of your first paper]</h3><p class="publication-authors">[Author names, in publication order]</p><p class="publication-venue">[Journal / conference / preprint]</p><p class="entry-description">[A short description of the research question and main contribution.]</p><div class="paper-resources" aria-label="Publication resources to be added"><span>PDF <span class="pending">pending</span></span><span>DOI <span class="pending">pending</span></span><span>Code <span class="pending">pending</span></span></div></div>
+            </article>
+            <article class="publication-entry">
+              <div class="entry-year">[Year]</div>
+              <div class="entry-content"><span class="placeholder-label">Publication placeholder</span><h3>[Title of another paper]</h3><p class="publication-authors">[Author names, in publication order]</p><p class="publication-venue">[Journal / conference / preprint]</p><p class="entry-description">[A short description of the research question and main contribution.]</p><div class="paper-resources" aria-label="Publication resources to be added"><span>PDF <span class="pending">pending</span></span><span>DOI <span class="pending">pending</span></span></div></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="content-section" id="articles" aria-labelledby="articles-title">
+          <div class="section-heading"><h2 id="articles-title">Articles</h2><span class="section-label">Writing</span></div>
+          <div class="article-list">
+            <!-- PERSONALIZE: title, date, topic, summary, and full article content. -->
+            <article class="article-entry"><div class="entry-year">[Date]</div><div class="entry-content"><span class="placeholder-label">Article placeholder</span><h3>[Title of your first article]</h3><p class="entry-description">[A brief summary of what this article is about.]</p><span class="article-topic">[Topic]</span></div><span class="article-pending">Content pending</span></article>
+            <article class="article-entry"><div class="entry-year">[Date]</div><div class="entry-content"><span class="placeholder-label">Article placeholder</span><h3>[Title of another article]</h3><p class="entry-description">[A brief summary of what this article is about.]</p><span class="article-topic">[Topic]</span></div><span class="article-pending">Content pending</span></article>
+          </div>
+        </section>
+
+        <section class="content-section links-section" id="links" aria-labelledby="links-title">
+          <div class="section-heading"><h2 id="links-title">Links</h2><span class="section-label">Contact &amp; profiles</span></div>
+          <!-- PERSONALIZE: turn each row into an anchor only after supplying its real URL. -->
+          <div class="contact-links">
+            <div class="contact-link"><span class="link-name">Email</span><span class="link-value">[Your email address]</span><span class="link-status">Pending</span></div>
+            <div class="contact-link"><span class="link-name">GitHub</span><span class="link-value">[Your GitHub profile URL]</span><span class="link-status">Pending</span></div>
+            <div class="contact-link"><span class="link-name">Google Scholar</span><span class="link-value">[Your Scholar profile URL]</span><span class="link-status">Pending</span></div>
+            <div class="contact-link"><span class="link-name">ORCID</span><span class="link-value">[Your ORCID profile URL]</span><span class="link-status">Pending</span></div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
