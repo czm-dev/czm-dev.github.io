@@ -1,4 +1,6 @@
-const themeSelect = document.querySelector('#theme-select');
+const themeToggle = document.querySelector('#theme-toggle');
+const themeChoices = ['system', 'light', 'dark'];
+const themeNames = { system: 'System', light: 'Light', dark: 'Dark' };
 const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
 let themeChoice = 'system';
 
@@ -10,7 +12,11 @@ try {
 function updateTheme() {
   if (themeChoice === 'system') document.documentElement.removeAttribute('data-theme');
   else document.documentElement.dataset.theme = themeChoice;
-  themeSelect.value = themeChoice;
+  themeToggle.dataset.choice = themeChoice;
+  const nextTheme = themeChoices[(themeChoices.indexOf(themeChoice) + 1) % themeChoices.length];
+  const label = `Theme: ${themeNames[themeChoice]}. Switch to ${themeNames[nextTheme]}.`;
+  themeToggle.setAttribute('aria-label', label);
+  themeToggle.setAttribute('title', label);
   const dark = themeChoice === 'dark' || (themeChoice === 'system' && systemTheme.matches);
   for (const meta of document.querySelectorAll('meta[name="theme-color"]')) {
     const isDarkMeta = meta.media.includes('dark');
@@ -19,8 +25,8 @@ function updateTheme() {
   }
 }
 
-themeSelect.addEventListener('change', () => {
-  themeChoice = themeSelect.value;
+themeToggle.addEventListener('click', () => {
+  themeChoice = themeChoices[(themeChoices.indexOf(themeChoice) + 1) % themeChoices.length];
   updateTheme();
   try {
     if (themeChoice === 'system') localStorage.removeItem('personal-site-theme');
@@ -116,17 +122,39 @@ window.addEventListener('blur', resetCard);
 finePointer.addEventListener('change', resetCard);
 reducedMotion.addEventListener('change', resetCard);
 
-if ('IntersectionObserver' in window) {
-  const links = [...document.querySelectorAll('.main-nav a')];
-  const observer = new IntersectionObserver((entries) => {
-    for (const entry of entries) {
-      if (!entry.isIntersecting) continue;
-      for (const link of links) {
-        if (link.hash === '#' + entry.target.id) link.setAttribute('aria-current', 'location');
-        else link.removeAttribute('aria-current');
-      }
+const navigationLinks = [...document.querySelectorAll('.main-nav a')];
+const navigationSections = [...document.querySelectorAll('main section[id]')];
+let navigationFrame = 0;
+
+function updateNavigation() {
+  if (!navigationSections.length) return;
+  const scroller = document.scrollingElement || document.documentElement;
+  const maxScroll = scroller.scrollHeight - scroller.clientHeight;
+  // A short last section cannot always reach the reading line before the page ends.
+  const atBottom = maxScroll > 2 && maxScroll - scroller.scrollTop <= 2;
+  let current = navigationSections[0];
+  if (atBottom) current = navigationSections[navigationSections.length - 1];
+  else {
+    const readingLine = window.innerHeight * 0.2;
+    for (const section of navigationSections) {
+      if (section.getBoundingClientRect().top <= readingLine) current = section;
     }
-  }, { rootMargin: '-10% 0px -65% 0px' });
-  document.querySelectorAll('main section[id]').forEach((section) => observer.observe(section));
+  }
+  for (const link of navigationLinks) {
+    if (link.hash === '#' + current.id) link.setAttribute('aria-current', 'location');
+    else link.removeAttribute('aria-current');
+  }
 }
+function scheduleNavigation() {
+  if (navigationFrame) return;
+  navigationFrame = requestAnimationFrame(() => {
+    navigationFrame = 0;
+    updateNavigation();
+  });
+}
+window.addEventListener('scroll', scheduleNavigation, { passive: true });
+window.addEventListener('resize', scheduleNavigation);
+window.addEventListener('load', scheduleNavigation);
+if ('ResizeObserver' in window) new ResizeObserver(scheduleNavigation).observe(document.body);
+updateNavigation();
 

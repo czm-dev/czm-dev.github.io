@@ -10,6 +10,8 @@ class Element extends EventTarget {
     super();
     this.children = [];
     this.properties = new Map();
+    this.attributes = new Map();
+    this.dataset = {};
     const classes = new Set();
     this.classList = {
       add: name => classes.add(name), remove: name => classes.delete(name),
@@ -19,6 +21,12 @@ class Element extends EventTarget {
       setProperty: (name, value) => this.properties.set(name, value),
       removeProperty: name => this.properties.delete(name),
     };
+  }
+  setAttribute(name, value) { this.attributes.set(name, value); }
+  getAttribute(name) { return this.attributes.get(name); }
+  removeAttribute(name) {
+    this.attributes.delete(name);
+    if (name === 'data-theme') delete this.dataset.theme;
   }
   append(node) {
     if (node.parentElement) {
@@ -30,9 +38,9 @@ class Element extends EventTarget {
   getBoundingClientRect() { return { left: 20, top: 80, width: 300, height: 260 }; }
 }
 
-function runtime({ fine = true, reduced = false, mobile = false } = {}) {
+function runtime({ fine = true, reduced = false, mobile = false, savedTheme = null, storageUnavailable = false, navigation = false, scrollTop = 0, scrollHeight = 1900, viewportHeight = 900 } = {}) {
   const elements = Object.fromEntries([
-    '#theme-select', '#card-stage', '#profile-badge', '#profile-info',
+    '#theme-toggle', '#card-stage', '#profile-badge', '#profile-info',
     '#profile-bio', '#profile-introduction',
   ].map(selector => [selector, new Element()]));
   elements['#profile-info'].append(elements['#profile-bio']);
@@ -54,19 +62,41 @@ function runtime({ fine = true, reduced = false, mobile = false } = {}) {
     return media.get(query);
   };
   const root = new Element();
-  root.dataset = {};
-  root.removeAttribute = () => {};
+  Object.assign(root, { scrollTop, scrollHeight, clientHeight: viewportHeight });
+  window.innerHeight = viewportHeight;
+  const navLinks = navigation ? ['profile', 'publications', 'articles', 'links'].map(id => {
+    const link = new Element();
+    link.hash = '#' + id;
+    return link;
+  }) : [];
+  const sections = navLinks.map((link, index) => ({
+    id: link.hash.slice(1),
+    getBoundingClientRect: () => ({ top: [100, 650, 1000, 1650][index] - root.scrollTop }),
+  }));
+  const stored = new Map(savedTheme ? [['personal-site-theme', savedTheme]] : []);
+  const storage = action => {
+    if (storageUnavailable) throw new Error('Storage unavailable');
+    return action();
+  };
   const frames = new Map();
   let nextFrame = 0;
   vm.runInNewContext(source, {
-    document: { querySelector: selector => elements[selector], querySelectorAll: () => [], documentElement: root },
+    document: {
+      querySelector: selector => elements[selector],
+      querySelectorAll: selector => selector === '.main-nav a' ? navLinks : selector === 'main section[id]' ? sections : [],
+      documentElement: root, scrollingElement: root,
+    },
     window,
-    localStorage: { getItem: () => null, setItem() {}, removeItem() {} },
+    localStorage: {
+      getItem: key => storage(() => stored.get(key) ?? null),
+      setItem: (key, value) => storage(() => stored.set(key, value)),
+      removeItem: key => storage(() => stored.delete(key)),
+    },
     requestAnimationFrame: callback => { frames.set(++nextFrame, callback); return nextFrame; },
     cancelAnimationFrame: id => frames.delete(id),
   });
   return {
-    ...elements, window, media,
+    ...elements, window, media, root, stored, navLinks,
     flush: () => { const callbacks = [...frames.values()]; frames.clear(); callbacks.forEach(callback => callback()); },
     send(type, { target = elements['#card-stage'], ...values } = {}) {
       const event = new Event(type, { cancelable: true });
@@ -76,6 +106,80 @@ function runtime({ fine = true, reduced = false, mobile = false } = {}) {
     },
   };
 }
+
+test('theme button cycles System → Light → Dark → System and persists only manual choices', () => {
+  const r = runtime();
+  const button = r['#theme-toggle'];
+  assert.equal(button.dataset.choice, 'system');
+  assert.match(button.getAttribute('aria-label'), /Theme: System\. Switch to Light\./);
+  for (const choice of ['light', 'dark', 'system']) {
+    button.dispatchEvent(new Event('click'));
+    assert.equal(button.dataset.choice, choice);
+    assert.equal(r.root.dataset.theme, choice === 'system' ? undefined : choice);
+    assert.equal(r.stored.get('personal-site-theme'), choice === 'system' ? undefined : choice);
+  }
+  r.media.get('(prefers-color-scheme: dark)').set(true);
+  assert.equal(button.dataset.choice, 'system');
+  assert.equal(r.root.dataset.theme, undefined);
+});
+
+test('restores the theme button state and synchronizes preferences from other tabs', () => {
+  const r = runtime({ savedTheme: 'dark' });
+  const button = r['#theme-toggle'];
+  assert.equal(button.dataset.choice, 'dark');
+  assert.equal(r.root.dataset.theme, 'dark');
+  assert.match(button.getAttribute('aria-label'), /Switch to System/);
+  r.media.get('(prefers-color-scheme: dark)').set(true);
+  assert.equal(button.dataset.choice, 'dark');
+  r.send('storage', { target: r.window, key: 'personal-site-theme', newValue: 'light' });
+  assert.equal(button.dataset.choice, 'light');
+  assert.equal(r.root.dataset.theme, 'light');
+  r.send('storage', { target: r.window, key: 'personal-site-theme', newValue: null });
+  assert.equal(button.dataset.choice, 'system');
+  assert.equal(r.root.dataset.theme, undefined);
+});
+
+test('theme cycling still works if local storage is unavailable', () => {
+  const r = runtime({ storageUnavailable: true });
+  r['#theme-toggle'].dispatchEvent(new Event('click'));
+  assert.equal(r.root.dataset.theme, 'light');
+});
+
+function activeSection(r) {
+  return r.navLinks.filter(link => link.getAttribute('aria-current') === 'location').map(link => link.hash);
+}
+
+test('highlights a short final section at the page bottom and restores Articles when scrolling up', () => {
+  const r = runtime({ navigation: true, scrollTop: 990 });
+  assert.deepEqual(activeSection(r), ['#articles']);
+  // Links starts at 650px in the viewport, below the normal reading line.
+  r.root.scrollTop = 999.5;
+  r.send('scroll', { target: r.window });
+  r.flush();
+  assert.deepEqual(activeSection(r), ['#links']);
+  r.root.scrollTop = 990;
+  r.send('scroll', { target: r.window });
+  r.flush();
+  assert.deepEqual(activeSection(r), ['#articles']);
+});
+
+test('restores Links on a bottom-position reload and recalculates after viewport changes', () => {
+  const r = runtime({ navigation: true, scrollTop: 1000 });
+  assert.deepEqual(activeSection(r), ['#links']);
+  r.root.clientHeight = r.window.innerHeight = 700;
+  r.send('resize', { target: r.window });
+  r.flush();
+  assert.deepEqual(activeSection(r), ['#articles']);
+  r.root.scrollTop = 1200;
+  r.send('scroll', { target: r.window });
+  r.flush();
+  assert.deepEqual(activeSection(r), ['#links']);
+});
+
+test('a page that fits within the viewport keeps Profile active', () => {
+  const r = runtime({ navigation: true, scrollHeight: 1900, viewportHeight: 2000 });
+  assert.deepEqual(activeSection(r), ['#profile']);
+});
 
 test('touch press and movement tilt the card without preventing native scrolling, and release resets it', () => {
   const r = runtime({ fine: false });
