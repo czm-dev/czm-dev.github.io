@@ -16,7 +16,7 @@
       <path d="M0 .5H4" stroke="#fff" stroke-opacity=".14" stroke-width=".35"/>
       <path d="M0 2H4" stroke="#4d585f" stroke-opacity=".08" stroke-width=".3"/>
     </pattern>
-    <clipPath id="face"><path d="M11 9H69L67 44H9Z"/></clipPath>
+    <clipPath id="face"><path d="M11 9H69V44H11Z"/></clipPath>
   </defs>
   <!-- The fold extends just inside the slot so its lower edge reveals thickness. -->
   <g transform="translate(0 4)">
@@ -26,15 +26,15 @@
   <path d="M27 88H53" stroke="#28343e" stroke-width="1.2" stroke-linecap="round"/>
   </g>
   <!-- Folded side walls and the narrow rolled lower lip of the strap clamp. -->
-  <path d="M8 9H70L74 13L71 48L67 51H10L6 46Z" fill="url(#edge)" stroke="#818c94" stroke-width=".7" stroke-linejoin="round"/>
-  <path d="M10 43H69L67 49H10L8 47Z" fill="url(#lip)"/>
-  <path d="M11 9H69L67 44H9Z" fill="url(#plate)" stroke="#c3cace" stroke-width=".7" stroke-linejoin="round"/>
-  <path d="M11 9H69L67 44H9Z" fill="url(#grain)"/>
+  <path d="M10 9H70L74 13V46L70 51H10L6 46V13Z" fill="url(#edge)" stroke="#818c94" stroke-width=".7" stroke-linejoin="round"/>
+  <path d="M10 43H70V49H10Z" fill="url(#lip)"/>
+  <path d="M11 9H69V44H11Z" fill="url(#plate)" stroke="#c3cace" stroke-width=".7" stroke-linejoin="round"/>
+  <path d="M11 9H69V44H11Z" fill="url(#grain)"/>
   <g clip-path="url(#face)" opacity=".15" stroke="#fff" stroke-width=".45">
     <path d="M14 18H44M26 25H65M10 31H48M34 39H65"/>
   </g>
-  <path d="M11 9H69M11 10L9 43" stroke="#f9fafb" stroke-opacity=".9" stroke-width="1"/>
-  <path d="M70 13L68 43" stroke="#6c7881" stroke-opacity=".7" stroke-width="1"/>
-  <path d="M10 45H67" stroke="#f0f4f6" stroke-width=".9"/>
-  <path d="M9 47L10 50M68 47L67 50" stroke="#26323c" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M11 9H69M11 10V43" stroke="#f9fafb" stroke-opacity=".9" stroke-width="1"/>
+  <path d="M70 13V43" stroke="#6c7881" stroke-opacity=".7" stroke-width="1"/>
+  <path d="M11 45H69" stroke="#f0f4f6" stroke-width=".9"/>
+  <path d="M10 47V50M70 47V50" stroke="#26323c" stroke-width="1.5" stroke-linecap="round"/>
 </svg>
