@@ -26,7 +26,9 @@ class Element extends EventTarget {
   getAttribute(name) { return this.attributes.get(name); }
   removeAttribute(name) {
     this.attributes.delete(name);
-    if (name === 'data-theme') delete this.dataset.theme;
+    if (name.startsWith('data-')) {
+      delete this.dataset[name.slice(5).replace(/-([a-z])/g, (_, letter) => letter.toUpperCase())];
+    }
   }
   append(node) {
     if (node.parentElement) {
@@ -41,7 +43,7 @@ class Element extends EventTarget {
 function runtime({ fine = true, reduced = false, mobile = false, savedTheme = null, storageUnavailable = false, navigation = false, scrollTop = 0, scrollHeight = 1900, viewportHeight = 900 } = {}) {
   const elements = Object.fromEntries([
     '#theme-toggle', '#card-stage', '#profile-badge', '#profile-info',
-    '#profile-bio', '#profile-introduction',
+    '#profile-bio', '#profile-introduction', '.main-nav',
   ].map(selector => [selector, new Element()]));
   elements['#profile-info'].append(elements['#profile-bio']);
   const media = new Map();
@@ -148,6 +150,65 @@ test('theme cycling still works if local storage is unavailable', () => {
 function activeSection(r) {
   return r.navLinks.filter(link => link.getAttribute('aria-current') === 'location').map(link => link.hash);
 }
+
+test('phone navigation starts hidden, shows on an upward finger swipe and hides on a downward swipe', () => {
+  const r = runtime({ mobile: true, navigation: true });
+  const nav = r['.main-nav'];
+  assert.equal(nav.dataset.scrollHidden, 'true');
+  r.root.scrollTop = 120;
+  r.send('scroll', { target: r.window });
+  r.flush();
+  assert.equal(nav.dataset.scrollHidden, 'false');
+  r.root.scrollTop = 80;
+  r.send('scroll', { target: r.window });
+  r.flush();
+  assert.equal(nav.dataset.scrollHidden, 'true');
+});
+
+test('small scroll movements and touch overscroll do not flicker the phone navigation', () => {
+  const r = runtime({ mobile: true });
+  const nav = r['.main-nav'];
+  r.root.scrollTop = -40;
+  r.send('scroll', { target: r.window });
+  assert.equal(nav.dataset.scrollHidden, 'true');
+  r.root.scrollTop = 1000;
+  r.send('scroll', { target: r.window });
+  assert.equal(nav.dataset.scrollHidden, 'false');
+  for (const position of [1030, 1010, 1000, 997]) {
+    r.root.scrollTop = position;
+    r.send('scroll', { target: r.window });
+    assert.equal(nav.dataset.scrollHidden, 'false');
+  }
+  r.root.scrollTop = 980;
+  r.send('scroll', { target: r.window });
+  assert.equal(nav.dataset.scrollHidden, 'true');
+});
+
+test('mobile toolbar height changes do not erase the swipe direction', () => {
+  const r = runtime({ mobile: true });
+  r.root.scrollTop = 30;
+  r.window.innerHeight = 850;
+  r.send('resize', { target: r.window });
+  r.send('scroll', { target: r.window });
+  assert.equal(r['.main-nav'].dataset.scrollHidden, 'false');
+});
+
+test('desktop navigation stays visible and changing layout resets the phone visibility', () => {
+  const r = runtime();
+  const nav = r['.main-nav'];
+  for (const position of [500, 100]) {
+    r.root.scrollTop = position;
+    r.send('scroll', { target: r.window });
+    assert.equal(nav.dataset.scrollHidden, undefined);
+  }
+  r.media.get('(max-width: 600px)').set(true);
+  assert.equal(nav.dataset.scrollHidden, 'true');
+  r.root.scrollTop = 300;
+  r.send('scroll', { target: r.window });
+  assert.equal(nav.dataset.scrollHidden, 'false');
+  r.media.get('(max-width: 600px)').set(false);
+  assert.equal(nav.dataset.scrollHidden, undefined);
+});
 
 test('highlights a short final section at the page bottom and restores Articles when scrolling up', () => {
   const r = runtime({ navigation: true, scrollTop: 990 });

@@ -122,6 +122,44 @@ window.addEventListener('blur', resetCard);
 finePointer.addEventListener('change', resetCard);
 reducedMotion.addEventListener('change', resetCard);
 
+const navigation = document.querySelector('.main-nav');
+function navigationScrollPosition() {
+  const scroller = document.scrollingElement || document.documentElement;
+  // Clamp rubber-band scrolling at the top and bottom on touch devices.
+  return Math.max(0, Math.min(scroller.scrollTop, Math.max(0, scroller.scrollHeight - scroller.clientHeight)));
+}
+let navigationScrollAnchor = navigationScrollPosition();
+let navigationViewportWidth = window.innerWidth;
+function resetNavigationVisibility() {
+  navigationScrollAnchor = navigationScrollPosition();
+  if (mobileLayout.matches) navigation.dataset.scrollHidden = 'true';
+  else navigation.removeAttribute('data-scroll-hidden');
+}
+function updateNavigationVisibility() {
+  const position = navigationScrollPosition();
+  if (!mobileLayout.matches) {
+    navigationScrollAnchor = position;
+    return;
+  }
+  const distance = position - navigationScrollAnchor;
+  // Ignore tiny movements so the panel does not flicker when a gesture settles.
+  if (Math.abs(distance) < 10) return;
+  // A finger swipe upwards increases scrollTop and reveals the panel.
+  navigation.dataset.scrollHidden = distance < 0 ? 'true' : 'false';
+  navigationScrollAnchor = position;
+}
+mobileLayout.addEventListener('change', resetNavigationVisibility);
+window.addEventListener('load', resetNavigationVisibility);
+window.addEventListener('resize', () => {
+  // Mobile browser toolbars change the height during a swipe; retain its direction.
+  if (window.innerWidth !== navigationViewportWidth) {
+    navigationViewportWidth = window.innerWidth;
+    navigationScrollAnchor = navigationScrollPosition();
+  }
+});
+window.addEventListener('scroll', updateNavigationVisibility, { passive: true });
+resetNavigationVisibility();
+
 const navigationLinks = [...document.querySelectorAll('.main-nav a')];
 const navigationSections = [...document.querySelectorAll('main section[id]')];
 let navigationFrame = 0;

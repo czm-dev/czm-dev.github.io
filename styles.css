@@ -296,6 +296,15 @@ a.contact-link:hover .link-name, a.contact-link:hover .link-value { color: var(-
   .page-shell { width: calc(100% - 40px); }
   .site-header { padding: 16px 0; }
   .theme-control { margin-left: auto; margin-right: 0; }
+  .main-nav { transition: transform 220ms ease, opacity 180ms ease; }
+  .js-ready .main-nav[data-scroll-hidden="true"] {
+    transform: translate(-50%, calc(100% + 18px + env(safe-area-inset-bottom, 0px)));
+    opacity: 0; pointer-events: none;
+  }
+  /* Keyboard navigation can reveal the panel even while it is offscreen. */
+  .js-ready .main-nav[data-scroll-hidden="true"]:has(a:focus-visible) {
+    transform: translateX(-50%); opacity: 1; pointer-events: auto;
+  }
   .profile-section { margin: 0 -6px; padding: 62px 0 70px; }
   .badge-assembly { --rest-angle: -1.25deg; --interaction-scale: 1.015; padding: 48px 10px 12px; }
   .profile-card { padding: 16px 16px 12px; border-radius: 10px; }
