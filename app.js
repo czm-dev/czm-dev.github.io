@@ -144,8 +144,8 @@ function updateNavigationVisibility() {
   const distance = position - navigationScrollAnchor;
   // Ignore tiny movements so the panel does not flicker when a gesture settles.
   if (Math.abs(distance) < 10) return;
-  // A finger swipe upwards increases scrollTop and reveals the panel.
-  navigation.dataset.scrollHidden = distance < 0 ? 'true' : 'false';
+  // Hide while reading further down; reveal when scrolling back up.
+  navigation.dataset.scrollHidden = distance > 0 ? 'true' : 'false';
   navigationScrollAnchor = position;
 }
 mobileLayout.addEventListener('change', resetNavigationVisibility);

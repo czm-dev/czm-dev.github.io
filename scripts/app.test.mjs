@@ -151,15 +151,19 @@ function activeSection(r) {
   return r.navLinks.filter(link => link.getAttribute('aria-current') === 'location').map(link => link.hash);
 }
 
-test('phone navigation starts hidden, shows on an upward finger swipe and hides on a downward swipe', () => {
+test('phone navigation starts hidden, hides while reading down and shows when scrolling back up', () => {
   const r = runtime({ mobile: true, navigation: true });
   const nav = r['.main-nav'];
   assert.equal(nav.dataset.scrollHidden, 'true');
   r.root.scrollTop = 120;
   r.send('scroll', { target: r.window });
   r.flush();
-  assert.equal(nav.dataset.scrollHidden, 'false');
+  assert.equal(nav.dataset.scrollHidden, 'true');
   r.root.scrollTop = 80;
+  r.send('scroll', { target: r.window });
+  r.flush();
+  assert.equal(nav.dataset.scrollHidden, 'false');
+  r.root.scrollTop = 120;
   r.send('scroll', { target: r.window });
   r.flush();
   assert.equal(nav.dataset.scrollHidden, 'true');
@@ -173,20 +177,28 @@ test('small scroll movements and touch overscroll do not flicker the phone navig
   assert.equal(nav.dataset.scrollHidden, 'true');
   r.root.scrollTop = 1000;
   r.send('scroll', { target: r.window });
-  assert.equal(nav.dataset.scrollHidden, 'false');
+  assert.equal(nav.dataset.scrollHidden, 'true');
   for (const position of [1030, 1010, 1000, 997]) {
+    r.root.scrollTop = position;
+    r.send('scroll', { target: r.window });
+    assert.equal(nav.dataset.scrollHidden, 'true');
+  }
+  r.root.scrollTop = 980;
+  r.send('scroll', { target: r.window });
+  assert.equal(nav.dataset.scrollHidden, 'false');
+  for (const position of [985, 982, 980, 987]) {
     r.root.scrollTop = position;
     r.send('scroll', { target: r.window });
     assert.equal(nav.dataset.scrollHidden, 'false');
   }
-  r.root.scrollTop = 980;
+  r.root.scrollTop = 1000;
   r.send('scroll', { target: r.window });
   assert.equal(nav.dataset.scrollHidden, 'true');
 });
 
 test('mobile toolbar height changes do not erase the swipe direction', () => {
-  const r = runtime({ mobile: true });
-  r.root.scrollTop = 30;
+  const r = runtime({ mobile: true, scrollTop: 120 });
+  r.root.scrollTop = 80;
   r.window.innerHeight = 850;
   r.send('resize', { target: r.window });
   r.send('scroll', { target: r.window });
@@ -204,6 +216,9 @@ test('desktop navigation stays visible and changing layout resets the phone visi
   r.media.get('(max-width: 600px)').set(true);
   assert.equal(nav.dataset.scrollHidden, 'true');
   r.root.scrollTop = 300;
+  r.send('scroll', { target: r.window });
+  assert.equal(nav.dataset.scrollHidden, 'true');
+  r.root.scrollTop = 200;
   r.send('scroll', { target: r.window });
   assert.equal(nav.dataset.scrollHidden, 'false');
   r.media.get('(max-width: 600px)').set(false);
