@@ -125,6 +125,48 @@ dd { margin: 0; }
 }
 .main-nav a:focus-visible { outline-offset: -2px; }
 
+/* Fine-pointer desktop navigation rests as four section indicators. */
+@media (min-width: 851px) and (hover: hover) and (pointer: fine) {
+  .main-nav {
+    width: 32px; gap: 2px; border-color: transparent;
+    background: transparent; box-shadow: none;
+    transition: width 220ms ease, background 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+  }
+  .main-nav a {
+    position: relative; min-height: 18px; padding: 0;
+    transition: min-height 220ms ease, padding 220ms ease, color 180ms, background 180ms;
+  }
+  .main-nav a[aria-current] { background: transparent; }
+  .main-nav a::before {
+    content: ''; position: absolute; width: 8px; height: 2px; border-radius: 2px;
+    background: var(--muted); opacity: .6;
+    transition: width 180ms ease, opacity 180ms ease;
+  }
+  .main-nav a[aria-current]::before { width: 12px; background: var(--accent); opacity: 1; }
+  .nav-label {
+    position: absolute; opacity: 0; transform: translateX(6px); pointer-events: none;
+    transition: opacity 160ms ease, transform 220ms ease;
+  }
+  .main-nav .theme-control {
+    height: 0; margin: 0; opacity: 0; overflow: hidden; pointer-events: none;
+    transition: height 220ms ease, margin 220ms ease, opacity 160ms ease, color 180ms, background 180ms;
+  }
+  .main-nav:is(:hover, :has(:focus-visible)) {
+    width: 116px; gap: 4px; border-color: var(--line);
+    background: color-mix(in srgb, var(--background) 45%, transparent);
+    box-shadow: 0 6px 24px var(--card-shadow), inset 0 1px 0 #ffffff12;
+  }
+  .main-nav:is(:hover, :has(:focus-visible)) a { min-height: 44px; padding: 7px 10px; }
+  .main-nav:is(:hover, :has(:focus-visible)) a[aria-current] {
+    background: color-mix(in srgb, var(--surface) 52%, transparent);
+  }
+  .main-nav:is(:hover, :has(:focus-visible)) a::before { opacity: 0; }
+  .main-nav:is(:hover, :has(:focus-visible)) .nav-label { opacity: 1; transform: none; }
+  .main-nav:is(:hover, :has(:focus-visible)) .theme-control {
+    height: 44px; margin-top: 4px; opacity: 1; overflow: visible; pointer-events: auto;
+  }
+}
+
 /* The outer stage supplies stable pointer bounds, independent of card rotation. */
 .profile-section { padding: 92px 42px 112px; }
 .card-stage { position: relative; perspective: 1100px; max-width: 870px; margin: 0 auto; }
