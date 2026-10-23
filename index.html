@@ -1,117 +1,276 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#f3f5f6" media="(prefers-color-scheme: light)" />
-  <meta name="theme-color" content="#161c22" media="(prefers-color-scheme: dark)" />
-  <meta name="description" content="Zhimin Chen, postgraduate student at USTC. Research in routing and networking in computing constellations." />
-  <title>Zhimin Chen — Networks in orbit</title>
-  <script>
-    try {
-      const theme = localStorage.getItem('personal-site-theme');
-      if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme;
-    } catch { /* Follow the device if storage is unavailable. */ }
-  </script>
-  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
-  <link rel="preconnect" href="https://api.fontshare.com" />
-  <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin />
-  <link href="https://api.fontshare.com/v2/css?f[]=gambarino@400&amp;display=swap" rel="stylesheet" />
-  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500&amp;display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./styles.css" />
-  <script src="./app.js" defer></script>
-</head>
-<body>
-  <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header">
-    <a class="wordmark" href="#profile" aria-label="Zhimin Chen, profile">Zhimin Chen</a>
-    <nav class="main-nav" aria-label="Main navigation">
-      <a href="#research">Research</a>
-      <a href="#publications">Publications</a>
-      <a href="#articles">Articles</a>
-      <a href="#links">Contact</a>
-    </nav>
-    <button class="theme-control" id="theme-toggle" type="button" data-choice="system"
-      aria-label="Theme: System. Switch to Light." title="Theme: System. Switch to Light.">
-      <svg class="theme-icon" data-icon="system" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-      <svg class="theme-icon" data-icon="light" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
-      <svg class="theme-icon" data-icon="dark" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.4 14A8.7 8.7 0 0 1 10 3.6 8.7 8.7 0 1 0 20.4 14Z"/></svg>
-    </button>
-  </header>
-  <main id="main">
-    <div class="split-layout">
-      <aside class="orbital-stage" aria-label="Views from orbit">
-        <div class="orbital-images" id="orbital-images">
-          <img class="orbital-image is-active" src="./assets/earth-and-international-space-station.jpg" width="1920" height="1285" alt="The International Space Station above the blue curve of Earth" data-view="orbit" fetchpriority="high" />
-          <img class="orbital-image" src="./assets/earth-horizon-and-international-space-station-solar.jpg" width="1920" height="1275" alt="Gold solar arrays cross the blue atmospheric horizon" data-view="hardware" loading="lazy" decoding="async" aria-hidden="true" />
-          <img class="orbital-image" src="./assets/etna-eruption-seen-from-the-international-space.jpg" width="1920" height="1412" alt="A plume from Mount Etna seen from the International Space Station" data-view="earth" loading="lazy" decoding="async" aria-hidden="true" />
-          <img class="orbital-image" src="./assets/international-space-station-star-trails-jsc2012e039800.jpg" width="1920" height="1278" alt="Star trails and city lights recorded from the moving space station" data-view="motion" loading="lazy" decoding="async" aria-hidden="true" />
-        </div>
-        <div class="orbital-caption">
-          <p id="view-caption" aria-live="polite">Earth from orbit</p>
-          <a href="#image-credits" class="photo-credit">NASA / image credits</a>
-        </div>
-        <div class="view-controls" role="group" aria-label="Choose a view from orbit" hidden>
-          <button type="button" data-select-view="orbit" aria-pressed="true">Orbit</button>
-          <button type="button" data-select-view="hardware" aria-pressed="false">Hardware</button>
-          <button type="button" data-select-view="earth" aria-pressed="false">Earth</button>
-          <button type="button" data-select-view="motion" aria-pressed="false">Motion</button>
-        </div>
-      </aside>
-      <div class="reading-pane">
-        <section class="profile-section reading-section" id="profile" aria-labelledby="profile-name" data-scene="orbit">
-          <h1 id="profile-name" data-reveal>Zhimin<br /> Chen</h1>
-          <p class="profile-description" data-reveal>Postgraduate student at USTC, studying routing and networking in computing constellations.</p>
-          <a class="primary-link" href="mailto:chenzhimin@mail.ustc.edu.cn" data-reveal>Email me <span aria-hidden="true">↗</span></a>
-          <p class="affiliation" data-reveal>University of Science and Technology of China</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="theme-color"
+      content="#f2f4f7"
+      media="(prefers-color-scheme: light)"
+    />
+    <meta
+      name="theme-color"
+      content="#101216"
+      media="(prefers-color-scheme: dark)"
+    />
+    <meta
+      name="description"
+      content="Personal profile, publications, articles, and contact links."
+    />
+    <title>[Your name] — Personal website</title>
+    <script>
+      try {
+        const theme = localStorage.getItem("personal-site-theme");
+        if (theme === "light" || theme === "dark")
+          document.documentElement.dataset.theme = theme;
+      } catch {
+        /* CSS follows the device when storage is unavailable. */
+      }
+    </script>
+    <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="page-shell">
+      <header class="site-header">
+        <nav class="main-nav" aria-label="Main navigation">
+          <a href="#profile"><span class="nav-label">Profile</span></a>
+          <a href="#publications"><span class="nav-label">Publications</span></a>
+          <a href="#articles"><span class="nav-label">Articles</span></a>
+          <a href="#links"><span class="nav-label">Links</span></a>
+          <button class="theme-control" id="theme-toggle" type="button"
+            data-choice="system" aria-label="Theme: System. Switch to Light."
+            title="Theme: System. Switch to Light.">
+            <svg class="theme-icon" data-icon="system" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect x="3" y="4" width="18" height="13" rx="2" />
+              <path d="M8 21h8M12 17v4" />
+            </svg>
+            <svg class="theme-icon" data-icon="light" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="12" cy="12" r="4" />
+              <path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+            </svg>
+            <svg class="theme-icon" data-icon="dark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M20.4 14A8.7 8.7 0 0 1 10 3.6 8.7 8.7 0 1 0 20.4 14Z" />
+            </svg>
+          </button>
+        </nav>
+      </header>
+      <main id="main">
+        <section
+          class="profile-section"
+          id="profile"
+          aria-labelledby="profile-name"
+        >
+          <div class="card-stage" id="card-stage">
+            <div class="badge-assembly" id="profile-badge">
+              <div class="lanyard" aria-hidden="true"></div>
+              <div class="sleeve-surface" aria-hidden="true"></div>
+              <div class="sleeve-slot" aria-hidden="true"></div>
+              <img
+                class="lanyard-hardware"
+                src="./assets/lanyard-clasp.svg"
+                alt=""
+                aria-hidden="true"
+                width="80"
+                height="96"
+              />
+              <article
+                class="profile-card"
+                id="profile-card"
+                aria-label="Personal profile card"
+              >
+                <div class="card-heading">
+                  <span>Personal profile</span
+                  ><span class="card-heading-rule" aria-hidden="true"></span
+                  ><span class="card-detail">Photo &amp; details pending</span>
+                </div>
+                <div class="card-main">
+                  <!-- PERSONALIZE: replace this placeholder with a portrait image and useful alt text. -->
+                  <div
+                    class="portrait-placeholder"
+                    role="img"
+                    aria-label="Portrait photo placeholder"
+                  >
+                    <svg viewBox="0 0 160 192" fill="none" aria-hidden="true">
+                      <circle cx="80" cy="70" r="25" />
+                      <path d="M32 159c0-32 20-52 48-52s48 20 48 52" />
+                      <path
+                        class="portrait-guide"
+                        d="M17 29V17h12M131 17h12v12M17 163v12h12M131 175h12v-12"
+                      />
+                    </svg>
+                    <span>[Your photo]</span>
+                  </div>
+                  <div class="profile-info" id="profile-info">
+                    <!-- PERSONALIZE: name, role, affiliation, research areas, and biography. -->
+                    <h1 id="profile-name">Zhimin Chen</h1>
+                    <p class="profile-role">Postgraduate Student</p>
+                    <dl class="profile-fields">
+                      <div>
+                        <dt>Affiliation</dt>
+                        <dd>USTC</dd>
+                      </div>
+                      <div>
+                        <dt>Research</dt>
+                        <dd>
+                          Routing & Networking in Computing Constellations
+                        </dd>
+                      </div>
+                    </dl>
+                    <p class="profile-bio" id="profile-bio">
+                      [A short biography: your background, current work, and
+                      interests.]
+                    </p>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <span>Profile information to be added</span
+                  ><span class="card-footer-mark" aria-hidden="true"></span>
+                </div>
+              </article>
+              <div class="sleeve-front" aria-hidden="true"></div>
+            </div>
+          </div>
+          <div class="profile-introduction" id="profile-introduction"></div>
         </section>
-        <section class="reading-section research-section" id="research" aria-labelledby="research-title" data-scene="hardware">
-          <h2 id="research-title" data-reveal>Research</h2>
-          <p class="research-statement" data-reveal>Networks in orbit.</p>
-          <p data-reveal>How satellites connect, and how data reaches the satellite that needs to compute it.</p>
-          <dl class="research-topics">
-            <div data-reveal><dt>Networking</dt><dd>Connections between satellites in a computing constellation.</dd></div>
-            <div data-reveal><dt>Routing</dt><dd>Paths for data through a network whose nodes keep moving.</dd></div>
-          </dl>
+
+        <section
+          class="content-section"
+          id="publications"
+          aria-labelledby="publications-title"
+        >
+          <div class="section-heading">
+            <h2 id="publications-title">Publications</h2>
+            <span class="section-label">Research papers</span>
+          </div>
+          <div class="publication-list">
+            <!-- PERSONALIZE: replace each placeholder with a real publication and its verified links. -->
+            <article class="publication-entry">
+              <div class="entry-year">[Year]</div>
+              <div class="entry-content">
+                <span class="placeholder-label">Publication placeholder</span>
+                <h3>[Title of your first paper]</h3>
+                <p class="publication-authors">
+                  [Author names, in publication order]
+                </p>
+                <p class="publication-venue">
+                  [Journal / conference / preprint]
+                </p>
+                <p class="entry-description">
+                  [A short description of the research question and main
+                  contribution.]
+                </p>
+                <div
+                  class="paper-resources"
+                  aria-label="Publication resources to be added"
+                >
+                  <span>PDF <span class="pending">pending</span></span
+                  ><span>DOI <span class="pending">pending</span></span
+                  ><span>Code <span class="pending">pending</span></span>
+                </div>
+              </div>
+            </article>
+            <article class="publication-entry">
+              <div class="entry-year">[Year]</div>
+              <div class="entry-content">
+                <span class="placeholder-label">Publication placeholder</span>
+                <h3>[Title of another paper]</h3>
+                <p class="publication-authors">
+                  [Author names, in publication order]
+                </p>
+                <p class="publication-venue">
+                  [Journal / conference / preprint]
+                </p>
+                <p class="entry-description">
+                  [A short description of the research question and main
+                  contribution.]
+                </p>
+                <div
+                  class="paper-resources"
+                  aria-label="Publication resources to be added"
+                >
+                  <span>PDF <span class="pending">pending</span></span
+                  ><span>DOI <span class="pending">pending</span></span>
+                </div>
+              </div>
+            </article>
+          </div>
         </section>
-        <div class="writing-section">
-          <section class="reading-section" id="publications" aria-labelledby="publications-title" data-scene="earth">
-            <h2 id="publications-title" data-reveal>Publications</h2>
-            <!-- Add verified publication entries here when available. -->
-            <p data-reveal>No publications listed yet.</p>
-          </section>
-          <section class="reading-section" id="articles" aria-labelledby="articles-title" data-scene="motion">
-            <h2 id="articles-title" data-reveal>Articles</h2>
-            <!-- Add real article titles and destinations here when available. -->
-            <p data-reveal>No articles published here yet.</p>
-          </section>
-        </div>
-      </div>
+
+        <section
+          class="content-section"
+          id="articles"
+          aria-labelledby="articles-title"
+        >
+          <div class="section-heading">
+            <h2 id="articles-title">Articles</h2>
+            <span class="section-label">Writing</span>
+          </div>
+          <div class="article-list">
+            <!-- PERSONALIZE: title, date, topic, summary, and full article content. -->
+            <article class="article-entry">
+              <div class="entry-year">[Date]</div>
+              <div class="entry-content">
+                <span class="placeholder-label">Article placeholder</span>
+                <h3>[Title of your first article]</h3>
+                <p class="entry-description">
+                  [A brief summary of what this article is about.]
+                </p>
+                <span class="article-topic">[Topic]</span>
+              </div>
+              <span class="article-pending">Content pending</span>
+            </article>
+            <article class="article-entry">
+              <div class="entry-year">[Date]</div>
+              <div class="entry-content">
+                <span class="placeholder-label">Article placeholder</span>
+                <h3>[Title of another article]</h3>
+                <p class="entry-description">
+                  [A brief summary of what this article is about.]
+                </p>
+                <span class="article-topic">[Topic]</span>
+              </div>
+              <span class="article-pending">Content pending</span>
+            </article>
+          </div>
+        </section>
+
+        <section
+          class="content-section links-section"
+          id="links"
+          aria-labelledby="links-title"
+        >
+          <div class="section-heading">
+            <h2 id="links-title">Links</h2>
+            <span class="section-label">Contact &amp; profiles</span>
+          </div>
+          <!-- PERSONALIZE: turn each row into an anchor only after supplying its real URL. -->
+          <div class="contact-links">
+            <div class="contact-link">
+              <span class="link-name">Email</span
+              ><span class="link-value">chenzhimin@mail.ustc.edu.cn</span
+              ><span class="link-status">Pending</span>
+            </div>
+            <div class="contact-link">
+              <span class="link-name">GitHub</span
+              ><span class="link-value">github.com/czm-dev</span
+              ><span class="link-status">Pending</span>
+            </div>
+            <div class="contact-link">
+              <span class="link-name">Google Scholar</span
+              ><span class="link-value">[Your Scholar profile URL]</span
+              ><span class="link-status">Pending</span>
+            </div>
+            <div class="contact-link">
+              <span class="link-name">ORCID</span
+              ><span class="link-value">[Your ORCID profile URL]</span
+              ><span class="link-status">Pending</span>
+            </div>
+          </div>
+        </section>
+      </main>
     </div>
-    <section class="contact-section" id="links" aria-labelledby="links-title">
-      <h2 id="links-title" data-reveal>Get in touch</h2>
-      <div class="contact-content">
-        <p data-reveal>For conversations about research, networks, and computing in orbit.</p>
-        <div class="contact-links" data-reveal>
-          <a href="mailto:chenzhimin@mail.ustc.edu.cn">chenzhimin@mail.ustc.edu.cn</a>
-          <a href="https://github.com/czm-dev">GitHub</a>
-        </div>
-      </div>
-    </section>
-  </main>
-  <footer class="site-footer">
-    <a href="#profile" class="footer-name" aria-label="Back to Zhimin Chen’s profile">Zhimin Chen</a>
-    <details id="image-credits">
-      <summary>Image credits</summary>
-      <p>NASA imagery, public domain, via Wikimedia Commons.</p>
-      <ul>
-        <li><a href="https://commons.wikimedia.org/wiki/File:Earth_and_international_space_station.jpg">Earth and International Space Station</a> — NASA / pingnews.com.</li>
-        <li><a href="https://commons.wikimedia.org/wiki/File:Earth_horizon_and_International_Space_Station_solar_panel_array_(Expedition_17_crew,_August_2008).jpg">Earth’s horizon and solar arrays</a> — NASA.</li>
-        <li><a href="https://commons.wikimedia.org/wiki/File:Etna_eruption_seen_from_the_International_Space_Station.jpg">Etna eruption from the ISS</a> — NASA.</li>
-        <li><a href="https://commons.wikimedia.org/wiki/File:International_Space_Station_star_trails_-_JSC2012E039800.jpg">ISS star trails</a> — NASA / Don Pettit.</li>
-      </ul>
-      <p>Typefaces: Gambarino and General Sans, via Fontshare.</p>
-    </details>
-  </footer>
-</body>
+  </body>
 </html>
